@@ -1,0 +1,91 @@
+mysql> use sys;
+Database changed
+mysql> create table book(sno int(2),bname char(12),author char(12),price int(9),publisher char(10));
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| course             |
+| courses            |
+| department         |
+| employee           |
+| employee123        |
+| employees          |
+| faculty            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| students           |
+| sys                |
+| world              |
++--------------------+
+15 rows in set (0.00 sec)
+
+mysql> desc book;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| sno       | int      | YES  |     | NULL    |       |
+| bname     | char(12) | YES  |     | NULL    |       |
+| author    | char(12) | YES  |     | NULL    |       |
+| price     | int      | YES  |     | NULL    |       |
+| publisher | char(10) | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into book(sno,bname,author,price,publisher)values(1,'dbms','vani',250,'charulatha'),(2,'toc','vyshu',300,'shivam'),(3,'c','ramu',500,'saran');
+
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from book;
++------+-------+--------+-------+------------+
+| sno  | bname | author | price | publisher  |
++------+-------+--------+-------+------------+
+|    1 | dbms  | vani   |   250 | charulatha |
+|    2 | toc   | vyshu  |   300 | shivam     |
+|    3 | c     | ramu   |   500 | saran      |
++------+-------+--------+-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from book where price>=300;
++------+-------+--------+-------+-----------+
+| sno  | bname | author | price | publisher |
++------+-------+--------+-------+-----------+
+|    2 | toc   | vyshu  |   300 | shivam    |
+|    3 | c     | ramu   |   500 | saran     |
++------+-------+--------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into book(sno,bname,author,price,publisher)values(4,'c++','vamsi',650,'charusila');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from book;
++------+-------+--------+-------+------------+
+| sno  | bname | author | price | publisher  |
++------+-------+--------+-------+------------+
+|    1 | dbms  | vani   |   250 | charulatha |
+|    2 | toc   | vyshu  |   300 | shivam     |
+|    3 | c     | ramu   |   500 | saran      |
+|    4 | c++   | vamsi  |   650 | charusila  |
++------+-------+--------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table book drop column author;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from book;
++------+-------+-------+------------+
+| sno  | bname | price | publisher  |
++------+-------+-------+------------+
+|    1 | dbms  |   250 | charulatha |
+|    2 | toc   |   300 | shivam     |
+|    3 | c     |   500 | saran      |
+|    4 | c++   |   650 | charusila  |
++------+-------+-------+------------+
+4 rows in set (0.00 sec)

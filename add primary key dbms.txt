@@ -1,0 +1,73 @@
+mysql> use sys;
+Database changed
+
+mysql> create table student123(regno int(6),name char(16),phoneno int(12));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| course             |
+| courses            |
+| department         |
+| employee           |
+| employee123        |
+| employees          |
+| faculty            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| students           |
+| sys                |
+| world              |
++--------------------+
+15 rows in set (0.00 sec)
+
+mysql> desc student123;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| regno   | int      | YES  |     | NULL    |       |
+| name    | char(16) | YES  |     | NULL    |       |
+| phoneno | int      | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student123(regno,name,phoneno)values(1659,'vamsi',938144),(1682,'vinay',948677);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from student123;
++-------+-------+---------+
+| regno | name  | phoneno |
++-------+-------+---------+
+|  1659 | vamsi |  938144 |
+|  1682 | vinay |  948677 |
++-------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> alter table student123 add primary key(regno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student123;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| regno   | int      | NO   | PRI | NULL    |       |
+| name    | char(16) | YES  |     | NULL    |       |
+| phoneno | int      | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from student123;
++-------+-------+---------+
+| regno | name  | phoneno |
++-------+-------+---------+
+|  1659 | vamsi |  938144 |
+|  1682 | vinay |  948677 |
++-------+-------+---------+
+2 rows in set (0.00 sec)

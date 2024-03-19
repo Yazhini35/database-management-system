@@ -1,0 +1,177 @@
+mysql> use sys;
+Database changed
+mysql> desc student;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| regno   | int      | NO   | PRI | NULL    |       |
+| name    | char(16) | YES  |     | NULL    |       |
+| address | char(20) | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> use sys;
+Database changed
+mysql> alter table student add(gender char(2),dob int(9),city char(9));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from student;
++-------+-------+---------+--------+------+------+
+| regno | name  | address | gender | dob  | city |
++-------+-------+---------+--------+------+------+
+|    23 | vamsi | chennai | NULL   | NULL | NULL |
++-------+-------+---------+--------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from faculty;
++------+-----------+--------+------+---------+
+| name | facultyno | gender | doj  | facname |
++------+-----------+--------+------+---------+
+| raj  |         9 | male   |    0 | NULL    |
+| raj  |         9 | male   |    0 | NULL    |
+| ramu |         8 | male   |   10 | NULL    |
+| sri  |         4 | female |    5 | NULL    |
+| raj  |         9 | male   |    0 | NULL    |
+| ramu |         8 | male   |    0 | NULL    |
+| sri  |         4 | female |    5 | NULL    |
+| raj  |         9 | male   |    0 | NULL    |
+| ramu |         8 | male   |   10 | NULL    |
+| sri  |         4 | female |    5 | NULL    |
++------+-----------+--------+------+---------+
+10 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> create a table department(deptno int(7),deptname char(8),depthead char(8));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'a table department(deptno int(7),deptname char(8),depthead char(8))' at line 1
+mysql> create table department(deptno int(7),deptname char(8),depthead char(8));
+ERROR 1050 (42S01): Table 'department' already exists
+mysql> select * from department;
++--------+----------+----------+
+| deptno | deptname | depthead |
++--------+----------+----------+
+|     43 | phy      | raj      |
+|     23 | chem     | haver    |
++--------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into department(deptno,deptname,depthead)values(1,'dbms','sarasu'),(2,'java','reddy');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from department;
++--------+----------+----------+
+| deptno | deptname | depthead |
++--------+----------+----------+
+|     43 | phy      | raj      |
+|     23 | chem     | haver    |
+|      1 | dbms     | sarasu   |
+|      2 | java     | reddy    |
++--------+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student add(classno int(3));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from student;
++-------+-------+---------+--------+------+------+---------+
+| regno | name  | address | gender | dob  | city | classno |
++-------+-------+---------+--------+------+------+---------+
+|    23 | vamsi | chennai | NULL   | NULL | NULL |    NULL |
++-------+-------+---------+--------+------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> truncate table student;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from student;
+Empty set (0.00 sec)
+
+mysql> desc student;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| regno   | int      | NO   | PRI | NULL    |       |
+| name    | char(16) | YES  |     | NULL    |       |
+| address | char(20) | YES  |     | NULL    |       |
+| gender  | char(2)  | YES  |     | NULL    |       |
+| dob     | int      | YES  |     | NULL    |       |
+| city    | char(9)  | YES  |     | NULL    |       |
+| classno | int      | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table faculty add(classno int(3));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from faculty;
++------+-----------+--------+------+---------+---------+
+| name | facultyno | gender | doj  | facname | classno |
++------+-----------+--------+------+---------+---------+
+| raj  |         9 | male   |    0 | NULL    |    NULL |
+| raj  |         9 | male   |    0 | NULL    |    NULL |
+| ramu |         8 | male   |   10 | NULL    |    NULL |
+| sri  |         4 | female |    5 | NULL    |    NULL |
+| raj  |         9 | male   |    0 | NULL    |    NULL |
+| ramu |         8 | male   |    0 | NULL    |    NULL |
+| sri  |         4 | female |    5 | NULL    |    NULL |
+| raj  |         9 | male   |    0 | NULL    |    NULL |
+| ramu |         8 | male   |   10 | NULL    |    NULL |
+| sri  |         4 | female |    5 | NULL    |    NULL |
++------+-----------+--------+------+---------+---------+
+10 rows in set (0.00 sec)
+
+mysql> truncate table faculty;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from faculty;
+Empty set (0.00 sec)
+
+mysql> desc faculty;
++-----------+----------+------+-----+---------+-------+
+| Field     | Type     | Null | Key | Default | Extra |
++-----------+----------+------+-----+---------+-------+
+| name      | char(6)  | YES  |     | NULL    |       |
+| facultyno | int      | YES  |     | NULL    |       |
+| gender    | char(6)  | YES  |     | NULL    |       |
+| doj       | int      | YES  |     | NULL    |       |
+| facname   | char(13) | YES  |     | NULL    |       |
+| classno   | int      | YES  |     | NULL    |       |
++-----------+----------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> drop table faculty;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table department add(classno int(3));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from department;
++--------+----------+----------+---------+
+| deptno | deptname | depthead | classno |
++--------+----------+----------+---------+
+|     43 | phy      | raj      |    NULL |
+|     23 | chem     | haver    |    NULL |
+|      1 | dbms     | sarasu   |    NULL |
+|      2 | java     | reddy    |    NULL |
++--------+----------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table department;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from department;
+Empty set (0.00 sec)
+
+mysql> drop table department;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from department;
+ERROR 1146 (42S02): Table 'sys.department' doesn't exist
+mysql>

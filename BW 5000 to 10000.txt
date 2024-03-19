@@ -1,0 +1,506 @@
+mysql> use sys;
+Database changed
+mysql> create table faculty(facno,gender);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',gender)' at line 1
+mysql> create table faculty(facno int(3),gender char(5));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| course             |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| students           |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> insert into faculty(facno,gender)values(2,'m'),(3,'f');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+
+| facno | gender |
++-------+--------+
+|     2 | m      |
+|     3 | f      |
++-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> alter table faculty add check(gender='m' or 'f');
+ERROR 3819 (HY000): Check constraint 'faculty_chk_1' is violated.
+mysql> alter table faculty add constraint CHECK_CONST check (gender='m' or 'f');
+ERROR 3819 (HY000): Check constraint 'CHECK_CONST' is violated.
+mysql> insert into faculty(facno,gender)values(4,'m'),(5,'t');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+
+| facno | gender |
++-------+--------+
+|     2 | m      |
+|     3 | f      |
+|     4 | m      |
+|     5 | t      |
++-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> alter table faculty add constraint CHECK_CONST check (gender='m' or 'f');
+ERROR 3819 (HY000): Check constraint 'CHECK_CONST' is violated.
+mysql> alter table faculty add constraint myCHECK_CONST check (gender='m' or 'f');
+ERROR 3819 (HY000): Check constraint 'myCHECK_CONST' is violated.
+mysql> alter table faculty add constraint mycheckconstraint check (gender='m' or 'f');
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> alter table faculty add constraint mycheckconstraint check(gender='m' or 'f');
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> alter table faculty add constraint mycheckconstraint check(gender in('m' or 'f'));
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> alter table faculty add constraint mycheckconstraint check (gender in('m' or 'f'));
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> alter table faculty add constraint mycheckconstraint check (gender in('m','f'));
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> alter table faculty add constraint mycheckconstraint check (gender in('m','f'));
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> delete table faculty gender where facno=5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table faculty gender where facno=5' at line 1
+mysql> delete from faculty gender where facno=5;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from faculty;
++-------+--------+
+| facno | gender |
++-------+--------+
+|     2 | m      |
+|     3 | f      |
+|     4 | m      |
++-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> alter table faculty add constraint mycheckconstraint check (gender in('m','f'));
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+
+| facno | gender |
++-------+--------+
+|     2 | m      |
+|     3 | f      |
+|     4 | m      |
++-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into faculty(facno,gender)values(4,'m'),(5,'t');
+ERROR 3819 (HY000): Check constraint 'mycheckconstraint' is violated.
+mysql> select * from faculty where name like'%sh';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> alter table faculty add(facname char(13));
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     2 | m      | NULL    |
+|     3 | f      | NULL    |
+|     4 | m      | NULL    |
++-------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set facname=josh where facno=2;
+ERROR 1054 (42S22): Unknown column 'josh' in 'field list'
+mysql> update faculty set facname='josh' where facno=2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     2 | m      | josh    |
+|     3 | f      | NULL    |
+|     4 | m      | NULL    |
++-------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty where name like'%sh';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> select * from faculty where facname like'%sh';
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     2 | m      | josh    |
++-------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> update faculty set facname='vinay' where facno=2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     2 | m      | vinay   |
+|     3 | f      | NULL    |
+|     4 | m      | NULL    |
++-------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set facname='josh' where facno=3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     2 | m      | vinay   |
+|     3 | f      | josh    |
+|     4 | m      | NULL    |
++-------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty where facname like'%sh';
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     3 | f      | josh    |
++-------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from faculty where facname like'vi%';
++-------+--------+---------+
+| facno | gender | facname |
++-------+--------+---------+
+|     2 | m      | vinay   |
++-------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> alter table faculty add(salary int(13));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from faculty;
++-------+--------+---------+--------+
+| facno | gender | facname | salary |
++-------+--------+---------+--------+
+|     2 | m      | vinay   |   NULL |
+|     3 | f      | josh    |   NULL |
+|     4 | m      | NULL    |   NULL |
++-------+--------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set salary=10000 where facno=3;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+
+| facno | gender | facname | salary |
++-------+--------+---------+--------+
+|     2 | m      | vinay   |   NULL |
+|     3 | f      | josh    |  10000 |
+|     4 | m      | NULL    |   NULL |
++-------+--------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set salary=5000 where facno=2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+
+| facno | gender | facname | salary |
++-------+--------+---------+--------+
+|     2 | m      | vinay   |   5000 |
+|     3 | f      | josh    |  10000 |
+|     4 | m      | NULL    |   NULL |
++-------+--------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set salary=20000 where facno=4;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+
+| facno | gender | facname | salary |
++-------+--------+---------+--------+
+|     2 | m      | vinay   |   5000 |
+|     3 | f      | josh    |  10000 |
+|     4 | m      | NULL    |  20000 |
++-------+--------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select salary from faculty where salary between 5000 to 10000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to 10000' at line 1
+mysql> select salary from faculty where salary between 5000 and 10000;
++--------+
+| salary |
++--------+
+|   5000 |
+|  10000 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select salary from faculty where salary between 5000 and 10000;
+
+mysql> select avg(salary) from faculty;
++-------------+
+| avg(salary) |
++-------------+
+|  11666.6667 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary),min(salary) from faculty;
++-------------+-------------+
+| max(salary) | min(salary) |
++-------------+-------------+
+|       20000 |        5000 |
++-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary),min(salary),avg(salary) from faculty;
++-------------+-------------+-------------+
+| max(salary) | min(salary) | avg(salary) |
++-------------+-------------+-------------+
+|       20000 |        5000 |  11666.6667 |
++-------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> alter table faculty add(subject char(13));
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+
+| facno | gender | facname | salary | subject |
++-------+--------+---------+--------+---------+
+|     2 | m      | vinay   |   5000 | NULL    |
+|     3 | f      | josh    |  10000 | NULL    |
+|     4 | m      | NULL    |  20000 | NULL    |
++-------+--------+---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set subject='dbms' where facno=2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+
+| facno | gender | facname | salary | subject |
++-------+--------+---------+--------+---------+
+|     2 | m      | vinay   |   5000 | dbms    |
+|     3 | f      | josh    |  10000 | NULL    |
+|     4 | m      | NULL    |  20000 | NULL    |
++-------+--------+---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set subject='java' where facno=3;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+
+| facno | gender | facname | salary | subject |
++-------+--------+---------+--------+---------+
+|     2 | m      | vinay   |   5000 | dbms    |
+|     3 | f      | josh    |  10000 | java    |
+|     4 | m      | NULL    |  20000 | NULL    |
++-------+--------+---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set subject='python' where facno=4;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+
+| facno | gender | facname | salary | subject |
++-------+--------+---------+--------+---------+
+|     2 | m      | vinay   |   5000 | dbms    |
+|     3 | f      | josh    |  10000 | java    |
+|     4 | m      | NULL    |  20000 | python  |
++-------+--------+---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set subject='java' where facno=4;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+
+| facno | gender | facname | salary | subject |
++-------+--------+---------+--------+---------+
+|     2 | m      | vinay   |   5000 | dbms    |
+|     3 | f      | josh    |  10000 | java    |
+|     4 | m      | NULL    |  20000 | java    |
++-------+--------+---------+--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> alter table faculty add(dob int(9));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     2 | m      | vinay   |   5000 | dbms    | NULL |
+|     3 | f      | josh    |  10000 | java    | NULL |
+|     4 | m      | NULL    |  20000 | java    | NULL |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set dob=2001 where facno=2,dob=2002 where facno=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',dob=2002 where facno=3' at line 1
+mysql> update faculty set dob=2001 where facno=2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
+|     3 | f      | josh    |  10000 | java    | NULL |
+|     4 | m      | NULL    |  20000 | java    | NULL |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty order by dob desc;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     4 | m      | NULL    |  20000 | java    | 2003 |
+|     3 | f      | josh    |  10000 | java    | 2002 |
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty order by dob asc;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
+|     3 | f      | josh    |  10000 | java    | 2002 |
+|     4 | m      | NULL    |  20000 | java    | 2003 |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty order by dob desc;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     4 | m      | NULL    |  20000 | java    | 2003 |
+|     3 | f      | josh    |  10000 | java    | 2002 |
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select *from faculty;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
+|     3 | f      | josh    |  10000 | java    | 2002 |
+|     4 | m      | NULL    |  20000 | java    | 2003 |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
+|     3 | f      | josh    |  10000 | java    | 2002 |
+|     4 | m      | NULL    |  20000 | java    | 2003 |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> update faculty set facname='hhj' where facno=4;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from faculty;
++-------+--------+---------+--------+---------+------+
+| facno | gender | facname | salary | subject | dob  |
++-------+--------+---------+--------+---------+------+
+|     2 | m      | vinay   |   5000 | dbms    | 2001 |
+|     3 | f      | josh    |  10000 | java    | 2002 |
+|     4 | m      | hhj     |  20000 | java    | 2003 |
++-------+--------+---------+--------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select salary from faculty;
++--------+
+| salary |
++--------+
+|   5000 |
+|  10000 |
+|  20000 |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select salary from faculty where salary >=5000;
++--------+
+| salary |
++--------+
+|   5000 |
+|  10000 |
+|  20000 |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select salary,facname from faculty where salary >=5000;
++--------+---------+
+| salary | facname |
++--------+---------+
+|   5000 | vinay   |
+|  10000 | josh    |
+|  20000 | hhj     |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select salary,facname from faculty where salary >=5000 order by subject;
++--------+---------+
+| salary | facname |
++--------+---------+
+|   5000 | vinay   |
+|  10000 | josh    |
+|  20000 | hhj     |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select salary,facname from faculty having salary >=5000  order by subject;
++--------+---------+
+| salary | facname |
++--------+---------+
+|   5000 | vinay   |
+|  10000 | josh    |
+|  20000 | hhj     |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select salary,facname from faculty having salary >5000  order by subject;
++--------+---------+
+| salary | facname |
++--------+---------+
+|  10000 | josh    |
+|  20000 | hhj     |
++--------+---------+
+2 rows in set (0.00 sec)
